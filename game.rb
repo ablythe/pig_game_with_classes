@@ -1,11 +1,15 @@
 class Game
-  attr_reader :name, :players, :scores, :round, :turn_score
+  attr_reader :name, :players, :scores, :round, 
+              :turn_score, :winner
   def initialize
     @name = nil
     @players =[]
     @scores = {}
     @round = 0
     @turn_score = 0
+    @won = false
+    @winner = ""
+    @max =20
   end
 
   def get_players
@@ -24,8 +28,11 @@ class Game
 
   def update_score 
     @scores[turn?] += @turn_score
+    if @scores[turn?] >= @max
+      @won = true
+      @winner = turn?
+    end
   end
-
 
   def turn?
     n =@round % players.count
@@ -37,6 +44,9 @@ class Game
     @turn_score =0
   end
 
+  def won?
+    @won
+  end
 end
 
 class Hog < Game
@@ -53,13 +63,17 @@ class Hog < Game
     @dice = n
   end
 
-  def roll test=nil
+  def roll 
+    @turn_score = 0
     @dice.times do
-      @last_roll = test ||rand(1..6)
-      unless @last_roll == 1
-        @turn_score += @last_roll
+      value = rand(1..6)
+      puts value
+      if value == 1
+        @turn_score = 0
+        return
+      else
+        @turn_score += value
       end
-      @last_roll
     end
   end
 end
