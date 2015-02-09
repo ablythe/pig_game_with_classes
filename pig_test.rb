@@ -1,6 +1,4 @@
-require './.Gemfile'
-require 'coveralls'
-Coveralls.wear!
+
 
 require 'minitest/autorun'
 require './game'
