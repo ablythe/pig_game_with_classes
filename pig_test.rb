@@ -1,3 +1,4 @@
+require './Gemfile'
 require 'coveralls'
 Coveralls.wear!
 
