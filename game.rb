@@ -13,6 +13,10 @@ class Game
     @turn_over = false
   end
 
+  def test_score score
+    @turn_score = score
+  end
+  
   def test_players *names
     names.each do |player|
       @players.push player
@@ -36,7 +40,7 @@ class Game
   end
 
   def turn?
-    n =@round % @number_of_players
+    n =@round % @players.count
     @players[n]
   end
 
