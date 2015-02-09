@@ -1,17 +1,15 @@
 class Game
-  attr_reader :name, :scores, :round, :players,
-  :turn_score, :winner, :done_playing, :turn_score, :number_of_players
+  attr_reader :name, :scores, :players, :round,
+  :turn_score, :winner, :turn_score, :number_of_players
   
   def initialize 
     @name = nil
     @players = []
     @scores = {}
-    @round = 0
     @turn_score = 0
-    @won = false
-    @winner = ""
+    @winner = nil
     @max =20
-    @done_playing = false
+    @round =0
     @turn_over = false
   end
 
@@ -33,13 +31,12 @@ class Game
   def update_score 
     @scores[turn?] += @turn_score
     if @scores[turn?] >= @max
-      @won = true
       @winner = turn?
     end
   end
 
   def turn?
-    n =@round % @players.count
+    n =@round % @number_of_players
     @players[n]
   end
 
@@ -57,29 +54,22 @@ class Game
     @turn_over =false
   end
 
-  def won?
-    @won
+  def winner?
+    @winner
   end
 
-  def play_again?
-    puts "Play again? y/n"
-    if gets.chomp =="n"
-      @done_playing = true
-    end
-    system "clear"
+  def play_again? input
+    input =="y" ? true : false
   end
 
-  def pick_game
-    puts "Pick a game to play:"
-    puts "1) Pig"
-    puts "2) Hog"
-    choice = nil
-    if gets.chomp.to_i == 1
-      choice = Pig
+  def pick_game choice
+    game = 
+    if choice == 1
+      Pig
     else
-      choice =Hog
+      Hog
     end
-    choice
+    game.new
   end
 
 end
@@ -100,15 +90,14 @@ class Hog < Game
         @turn_over = true
         return true
       else
-        @turn_score += value
-        
+        @turn_score += value 
       end
     end
     @turn_over = true
     return false
   end
 
-  def take_turn
+  def take_turn 
     @turn_score = 0
     puts "How many dice do you want to roll? "
     number= gets.chomp.to_i
